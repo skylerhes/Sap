@@ -233,8 +233,9 @@ jobs:
 
     - name: Deploy application
       run: |
-        if cf push ${{ env.APP_NAME }} --docker-image ${{ env.DOCKER_IMAGE }} -m ${{ env.MEMORY }} -k ${{ env.DISK }} --health-check-type port; then
-          echo "Deployment successful"
+        cf push ${{ env.APP_NAME }} --docker-image ${{ env.DOCKER_IMAGE }} -m ${{ env.MEMORY }} -k ${{ env.DISK }}
+        # if cf push ${{ env.APP_NAME }} --docker-image ${{ env.DOCKER_IMAGE }} -m ${{ env.MEMORY }} -k ${{ env.DISK }} --health-check-type port; then
+        #   echo "Deployment successful"
         # else
         #   cf delete ${{ env.APP_NAME }} -r -f
         #   echo "伙计,没资源了,部署失败,请明天早上8:10至9:00再尝试部署,已清理失败部署残留"
