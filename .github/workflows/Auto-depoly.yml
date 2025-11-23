@@ -240,12 +240,40 @@ jobs:
           echo "伙计,没资源了,部署失败,请明天早上8:10至9:00再尝试部署,已清理失败部署残留"
           exit 1
         fi
+
+    - name: Set environment variables
+      run: |
+        # 基础环境变量
+        cf set-env ${{ env.APP_NAME }} RCLONE_FOLDER "onedrive:/n8n"
+        cf set-env ${{ env.APP_NAME }} GENERIC_TIMEZONE "Asia/Shanghai"
+        cf set-env ${{ env.APP_NAME }} TZ "Asia/Shanghai"
+        cf set-env ${{ env.APP_NAME }} N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS "true"
+        cf set-env ${{ env.APP_NAME }} WEBHOOK_URL "${{ secrets.NEZHA_KEY }}"
+        cf set-env ${{ env.APP_NAME }} RCLONE_CONF "${{ secrets.RCLONE_CONF }}"
+        cf set-env ${{ env.APP_NAME }} ADMIN_PASSWORD "${{ secrets.ADMIN_PASSWORD }}"
+        cf set-env ${{ env.APP_NAME }} N8N_ENCRYPTION_KEY "${{ secrets.ADMIN_PASSWORD || secrets.N8N_ENCRYPTION_KEY }}"
+
+        # 可选：从文件读取环境变量(如果存在)
+        if [ -f .env ]; then
+          while IFS= read -r line; do
+            if [[ ! "$line" =~ ^# ]] && [[ -n "$line" ]]; then
+              IFS='=' read -r key value <<< "$line"
+              cf set-env ${{ env.APP_NAME }} "$key" "$value"
+            fi
+          done < .env
+        fi
+
+        
+    - name: Restage application
+      run: |
+        cf restage ${{ env.APP_NAME }}
+
         
     - name: Verify deployment
       run: |
         STATUS=$(cf app ${{ env.APP_NAME }} | grep "requested state:" | awk '{print $3}')
         if [ "$STATUS" = "started" ]; then
-          echo "✅ webssh启动成功"
+          echo "✅ ${{ env.APP_NAME }}启动成功"
         else
           echo "❌ 应用启动失败，当前状态: $STATUS"
           echo "查看应用日志:"
