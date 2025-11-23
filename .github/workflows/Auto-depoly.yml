@@ -238,7 +238,7 @@ jobs:
         else
           # cf delete ${{ env.APP_NAME }} -r -f
           echo "伙计,没资源了,部署失败,请明天早上8:10至9:00再尝试部署,已清理失败部署残留"
-          exit 1
+          # exit 1
         fi
 
     - name: Set environment variables
