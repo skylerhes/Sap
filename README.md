@@ -20,10 +20,11 @@
 
 4. **设置Docker容器环境变量(也是在secrets里设置)**
    - 设置基础环境变量：
-     - DOCKER_IMAGE
      - DOCKER_IMAGE(使用的docker镜像),默认使用n8n
      - MEMORY 设置内存大小，默认2048M
      - DISK  设置硬盘大小，默认3096M
+     - RCLONE_CONF:rclone配置内容，可选，用来同步数据
+     - ADMIN_PASSWORD:Code Server登陆密码
 
 6. **开始部署**
 * 试用版第二区域和企业版创建区域后,请一定要创建一个空间,名称随意,否则无法运行
