@@ -1,6 +1,8 @@
-name: 自动部署n8n到SAP
+name: 自动部署ubuntu桌面到SAP
 
 on:
+  # schedule:
+  #   - cron: '30 23 6 10 *'  # 每天 00:00 UTC 执行，调整为你需要的时间
   workflow_dispatch:  # 只允许手动触发
     inputs:
       region:
@@ -45,12 +47,12 @@ on:
           - Neo-UAE(Dubai)
           - Neo-KSA(Riyadh)
       app_name:
-        description: '应用名称（可选，留空则自动生成）'
+        description: '应用名称(可选,留空则自动生成,被占用会部署失败)'
         required: false
         default: ''
 
 env:
-  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/n8n:latest' }}
+  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/ubuntu:sky' }}
   MEMORY: ${{ secrets.MEMORY || '2048M' }}
   DISK: ${{ secrets.DISK || '3096M' }}
 
@@ -78,130 +80,130 @@ jobs:
           # 免费区域
           "SG(free)")
             echo "CF_API=https://api.cf.ap21.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-freesg$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-freesg$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "US(free)")
             echo "CF_API=https://api.cf.us10-001.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-freeus$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-freeus$RANDOM_STR" >> $GITHUB_ENV
             ;;
           # AWS 区域
           "AWS-AU(Sydney)")
             echo "CF_API=https://api.cf.ap10.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-awsau$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-awsau$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "AWS-BR(São Paulo)")
             echo "CF_API=https://api.cf.br10.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-awsbr$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-awsbr$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "AWS-KR(Seoul)")
             echo "CF_API=https://api.cf.ap12.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-awskr$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-awskr$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "AWS-CA(Montreal)")
             echo "CF_API=https://api.cf.ca10.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-awsca$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-awsca$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "AWS-US(VA)")
             echo "CF_API=https://api.cf.us10-001.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-awsusva$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-awsusva$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "AWS-US(OR)")
             echo "CF_API=https://api.cf.us11.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-awsusor$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-awsusor$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "AWS-EU(Frankfurt)")
             echo "CF_API=https://api.cf.eu10-005.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-waseu$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-waseu$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "AWS-JP(Tokyo)")
             echo "CF_API=https://api.cf.jp10.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-awsjp$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-awsjp$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "AWS-SG(Singapore)")
             echo "CF_API=https://api.cf.ap11.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-awssg$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-awssg$RANDOM_STR" >> $GITHUB_ENV
             ;;
           
           # GCP 区域
           "GCP-AU(Sydney)")
             echo "CF_API=https://api.cf.ap30.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-gcpau$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-gcpau$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "GCP-BR(São Paulo)")
             echo "CF_API=https://api.cf.br30.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-gcpbr$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-gcpbr$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "GCP-US(IA)")
             echo "CF_API=https://api.cf.us30.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-gcpus$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-gcpus$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "GCP-EU(Frankfurt)")
             echo "CF_API=https://api.cf.eu30.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-gcpeu$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-gcpeu$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "GCP-JP(Osaka)")
             echo "CF_API=https://api.cf.jp30.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-gcpjpo$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-gcpjpo$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "GCP-JP(Tokyo)")
             echo "CF_API=https://api.cf.jp31.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-gcpjpt$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-gcpjpt$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "GCP-IL(Tel Aviv)")
             echo "CF_API=https://api.cf.il30.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-gcpil$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-gcpil$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "GCP-IN(Mumbai)")
             echo "CF_API=https://api.cf.in30.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-gcpin$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-gcpin$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "GCP-KSA(Dammam)")
             echo "CF_API=https://api.cf.sa31.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-gcpsa$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-gcpsa$RANDOM_STR" >> $GITHUB_ENV
             ;;
           
           # Azure 区域
           "Azure-AU(Sydney)")
             echo "CF_API=https://api.cf.ap20.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-azau$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-azau$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "Azure-BR(São Paulo)")
             echo "CF_API=https://api.cf.br20.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-azbr$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-azbr$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "Azure-CA(Montreal)")
             echo "CF_API=https://api.cf.ca20.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-azca$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-azca$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "Azure-US(VA)")
             echo "CF_API=https://api.cf.us21.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-azva$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-azva$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "Azure-US(WA)")
             echo "CF_API=https://api.cf.us20.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-azwa$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-azwa$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "Azure-EU(Netherlands)")
             echo "CF_API=https://api.cf.eu20-001.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-azeu$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-azeu$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "Azure-JP(Tokyo)")
             echo "CF_API=https://api.cf.jp20.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-azjp$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-azjp$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "Azure-SG(Singapore)")
             echo "CF_API=https://api.cf.ap21.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-azsg$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-azsg$RANDOM_STR" >> $GITHUB_ENV
             ;;
           
           # SAP Neo 区域
           "Neo-UAE(Dubai)")
             echo "CF_API=https://api.cf.neo-ae1.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-neouae$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-neouae$RANDOM_STR" >> $GITHUB_ENV
             ;;
           "Neo-KSA(Riyadh)")
             echo "CF_API=https://api.cf.neo-sa1.hana.ondemand.com" >> $GITHUB_ENV
-            echo "APP_NAME=webssh-neoksa$RANDOM_STR" >> $GITHUB_ENV
+            echo "APP_NAME=ubuntu-neoksa$RANDOM_STR" >> $GITHUB_ENV
             ;;
         esac
         
@@ -236,54 +238,16 @@ jobs:
         if cf push ${{ env.APP_NAME }} --docker-image ${{ env.DOCKER_IMAGE }} -m ${{ env.MEMORY }} -k ${{ env.DISK }} --health-check-type port; then
           echo "Deployment successful"
         else
-          # cf delete ${{ env.APP_NAME }} -r -f
-          echo "伙计,没资源了,部署失败,请明天早上8:10至9:00再尝试部署,已清理失败部署残留"
-          # exit 1
+          cf delete ${{ env.APP_NAME }} -r -f 
+          echo "伙计,没资源了,部署失败,请明天早上8:20至9:00再尝试部署,已清理失败部署残留"
+          exit 1
         fi
 
-    - name: Set environment variables
-      run: |
-        # 基础环境变量
-        # cf set-env ${{ env.APP_NAME }} RCLONE_CONF "${{ secrets.RCLONE_CONF }}"
-        # cf set-env ${{ env.APP_NAME }} ADMIN_PASSWORD "${{ secrets.ADMIN_PASSWORD }}"
-        # cf set-env ${{ env.APP_NAME }} N8N_ENCRYPTION_KEY "${{ secrets.ADMIN_PASSWORD || secrets.N8N_ENCRYPTION_KEY }}"
-        # cf set-env ${{ env.APP_NAME }} RCLONE_FOLDER "${{ secrets.RCLONE_FOLDER || 'onedrive:/n8n' }}"
-        # cf set-env ${{ env.APP_NAME }} GENERIC_TIMEZONE "Asia/Shanghai"
-        # cf set-env ${{ env.APP_NAME }} TZ "Asia/Shanghai"
-        # cf set-env ${{ env.APP_NAME }} N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS "true"
-        
-        # 获取应用路由
-        ROUTE=$(cf app ${{ env.APP_NAME }} | grep "routes:" | awk '{print $2}')
-        if [ -n "$ROUTE" ]; then
-          echo "设置 DOMAIN 环境变量为: $ROUTE"
-          cf set-env ${{ env.APP_NAME }} WEBHOOK_URL "https://$ROUTE"
-        else
-          echo "⚠️ 未找到应用路由，无法设置 WEBHOOK_URL,请手动前往Sap添加 WEBHOOK_URL 环境变量，将其设置为应用域名"
-        fi
-
-        # 可选：从文件读取环境变量(如果存在)
-        if [ -f .env ]; then
-          while IFS= read -r line; do
-            if [[ ! "$line" =~ ^# ]] && [[ -n "$line" ]]; then
-              IFS='=' read -r key value <<< "$line"
-              cf set-env ${{ env.APP_NAME }} "$key" "$value"
-            fi
-          done < .env
-        fi
-
-    
-
-        
-    - name: Restage application
-      run: |
-        cf restage ${{ env.APP_NAME }}
-
-        
     - name: Verify deployment
       run: |
         STATUS=$(cf app ${{ env.APP_NAME }} | grep "requested state:" | awk '{print $3}')
         if [ "$STATUS" = "started" ]; then
-          echo "✅ ${{ env.APP_NAME }}启动成功"
+          echo "✅ ubuntu启动成功"
         else
           echo "❌ 应用启动失败，当前状态: $STATUS"
           echo "查看应用日志:"
@@ -302,7 +266,7 @@ jobs:
         # 获取应用路由
         ROUTE=$(cf app ${{ env.APP_NAME }} | grep "routes:" | awk '{print $2}')
         if [ -n "$ROUTE" ]; then
-          echo "webssh—url: https://$ROUTE"
+          echo "ubuntu—vnc-url: https://$ROUTE"
         else
           echo "⚠️ 未找到应用路由，请检查部署状态。"
         fi
