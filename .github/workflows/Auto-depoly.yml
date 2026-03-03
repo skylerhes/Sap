@@ -1,8 +1,8 @@
 name: 自动部署ubuntu桌面到SAP
 
 on:
-  # schedule:
-  #   - cron: '30 23 6 10 *'  # 每天 00:00 UTC 执行，调整为你需要的时间
+  #schedule:
+    #- cron: '30 23 6 10 *'  # 每天 00:00 UTC 执行，调整为你需要的时间
   workflow_dispatch:  # 只允许手动触发
     inputs:
       region:
@@ -13,7 +13,7 @@ on:
         options:
           #  免费区域
           - SG(free)  # azure新加披
-          - US(free)  # aws美国  
+          - US(free)  # aws美国 
           # SAP 区域
           - SAP-UAE(Dubai)
           - SAP-AU(Sydney)
@@ -58,8 +58,8 @@ on:
         default: ''
 
 env:
-  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/ubuntu:sky' }}
-  MEMORY: ${{ secrets.MEMORY || '3072M' }}
+  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'dorowu/ubuntu-desktop-lxde-vnc' }}
+  MEMORY: ${{ secrets.MEMORY || '2048M' }}
   DISK: ${{ secrets.DISK || '3096M' }}
 
 jobs:
