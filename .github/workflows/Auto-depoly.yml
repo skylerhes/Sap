@@ -59,7 +59,7 @@ on:
 
 env:
   DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/ubuntu:sky' }}
-  MEMORY: ${{ secrets.MEMORY || '2048M' }}
+  MEMORY: ${{ secrets.MEMORY || '3072M' }}
   DISK: ${{ secrets.DISK || '3096M' }}
 
 jobs:
