@@ -58,7 +58,7 @@ on:
         default: ''
 
 env:
-  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/ubuntu:sap' }}
+  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/ubuntu:sky' }}
   MEMORY: ${{ secrets.MEMORY || '2304M' }}
   DISK: ${{ secrets.DISK || '10230M' }}
 
