@@ -58,9 +58,9 @@ on:
         default: ''
 
 env:
-  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/ubuntu:sky' }}
-  MEMORY: ${{ secrets.MEMORY || '2304M' }}
-  DISK: ${{ secrets.DISK || '10230M' }}
+  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/skyler:latest' }}
+  MEMORY: ${{ secrets.MEMORY || '2512M' }}
+  DISK: ${{ secrets.DISK || '10240M' }}
 
 jobs:
   deploy-app:
