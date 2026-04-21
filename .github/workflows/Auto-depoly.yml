@@ -52,7 +52,7 @@ on:
         default: ''
 
 env:
-  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/ubuntu:mcf1' }}
+  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/aws' }}
   MEMORY: ${{ secrets.MEMORY || '3096M' }}
   DISK: ${{ secrets.DISK || '10240M' }}
 
