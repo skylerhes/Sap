@@ -58,8 +58,8 @@ on:
         default: ''
 
 env:
-  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/skyler:latest' }}
-  MEMORY: ${{ secrets.MEMORY || '2512M' }}
+  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE || 'skylerhe/sap:latest' }}
+  MEMORY: ${{ secrets.MEMORY || '3072M' }}
   DISK: ${{ secrets.DISK || '10240M' }}
 
 jobs:
